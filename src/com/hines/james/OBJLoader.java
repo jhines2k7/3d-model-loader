@@ -11,26 +11,28 @@ public class OBJLoader {
         String line;
 
         while((line = reader.readLine()) != null) {
-            if (line.startsWith("v ")) {
-                float x = Float.valueOf(line.split(" ")[1]);
-                float y = Float.valueOf(line.split(" ")[2]);
-                float z = Float.valueOf(line.split(" ")[3]);
+            if(!line.trim().isEmpty()) {
+                if (line.startsWith("v ")) {
+                    float x = Float.valueOf(line.split(" ")[1]);
+                    float y = Float.valueOf(line.split(" ")[2]);
+                    float z = Float.valueOf(line.split(" ")[3]);
 
-                model.vertices.add(new Vector3f(x, y, z));
-            } else if (line.startsWith("vn ")) {
-                float x = Float.valueOf(line.split(" ")[1]);
-                float y = Float.valueOf(line.split(" ")[2]);
-                float z = Float.valueOf(line.split(" ")[3]);
+                    model.vertices.add(new Vector3f(x, y, z));
+                } else if (line.startsWith("vn ")) {
+                    float x = Float.valueOf(line.split(" ")[1]);
+                    float y = Float.valueOf(line.split(" ")[2]);
+                    float z = Float.valueOf(line.split(" ")[3]);
 
-                model.normals.add(new Vector3f(x, y, z));
-            } else if (line.startsWith("f ")) {
-                Vector3f vertexIndices = new Vector3f(
-                        Float.valueOf(line.split(" ")[1]),
-                        Float.valueOf(line.split(" ")[2]),
-                        Float.valueOf(line.split(" ")[3])
-                );
+                    model.normals.add(new Vector3f(x, y, z));
+                } else if (line.startsWith("f ")) {
+                    Vector3f vertexIndices = new Vector3f(
+                            Float.valueOf(line.split(" ")[1]),
+                            Float.valueOf(line.split(" ")[2]),
+                            Float.valueOf(line.split(" ")[3])
+                    );
 
-                model.faces.add(new Face(vertexIndices));
+                    model.faces.add(new Face(vertexIndices));
+                }
             }
         }
 
