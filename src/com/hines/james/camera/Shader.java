@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL20.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.hines.james.camera.matrix.CameraMatrix4f;
 import com.hines.james.math.*;
 import com.hines.james.util.ShaderUtils;
 
@@ -70,9 +71,9 @@ public class Shader {
         glUniform3f(getUniform(name), vector.x, vector.y, vector.z);
     }
 
-    public void setUniformMat4f(String name, Matrix4f matrix) {
+    public void setUniformMat4f(String name, CameraMatrix4f matrix) {
         if (!enabled) enable();
-        glUniformMatrix4(getUniform(name), false, matrix.toFloatBuffer());
+        glUniformMatrix4v(getUniform(name), false, matrix.toFloatBuffer());
     }
 
     public void enable() {

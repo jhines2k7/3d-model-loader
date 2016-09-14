@@ -1,13 +1,14 @@
 package com.hines.james.camera;
 
 
+import com.hines.james.camera.matrix.CameraMatrix4f;
 import com.hines.james.math.*;
 import com.hines.james.input.Input;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
 
-    public Matrix4f cameraMat = new Matrix4f();
+    public CameraMatrix4f cameraMat = new CameraMatrix4f();
     public Vector3f position = new Vector3f();
 
     float rot = 0.0f;
@@ -15,19 +16,19 @@ public class Camera {
     private float yaw;
     private float roll;
 
-    public Camera(Matrix4f cameraMat){
+    public Camera(CameraMatrix4f cameraMat){
         this.cameraMat = cameraMat;
     }
 
-    public Matrix4f getMatrix(){
+    public CameraMatrix4f getMatrix(){
         return cameraMat;
     }
 
-    public Matrix4f getCameraMat() {
+    public CameraMatrix4f getCameraMat() {
         return cameraMat;
     }
 
-    public void setCameraMat(Matrix4f cameraMat) {
+    public void setCameraMat(CameraMatrix4f cameraMat) {
         this.cameraMat = cameraMat;
     }
 
@@ -70,15 +71,14 @@ public class Camera {
         }
     }
 
-    public Matrix4f setupViewMatrix(){
-        Matrix4f viewMatrix = new Matrix4f();
-        viewMatrix = Matrix4f.identity();
+    public CameraMatrix4f setupViewMatrix(){
+        CameraMatrix4f viewMatrix = new CameraMatrix4f();
+        viewMatrix = CameraMatrix4f.identity();
 
         Vector3f negativeCameraPos = new Vector3f(-position.x, -position.y, -position.z);
 
         viewMatrix.translate(negativeCameraPos);
         return viewMatrix;
-
     }
 
 
@@ -87,13 +87,17 @@ public class Camera {
         Shader.shader1.enable();
 
         // Uncomment different lines to see different rotation effects
-//		Shader.shader1.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotateX(rot)));
-//		Shader.shader1.setUniformMat4f("ml_matrix", Matrix4f.translate(position).multiply(Matrix4f.rotateY(rot)));
-        Shader.shader1.setUniformMat4f("vw_matrix", Matrix4f.translate(
-                new Vector3f(-position.x, -position.y, -position.z)).multiply(
-                Matrix4f.rotateZ(roll).multiply(
-                        Matrix4f.rotateY(yaw)).multiply(
-                        Matrix4f.rotateX(pitch))));
+//		Shader.shader1.setUniformMat4f("ml_matrix", CameraMatrix4f.translate(position).multiply(CameraMatrix4f.rotateX(rot)));
+//		Shader.shader1.setUniformMat4f("ml_matrix", CameraMatrix4f.translate(position).multiply(CameraMatrix4f.rotateY(rot)));
+        Shader.shader1.setUniformMat4f("vw_matrix",
+                CameraMatrix4f.translate(
+                    new Vector3f(-position.x, -position.y, -position.z))
+                        .multiply(
+                            CameraMatrix4f.rotateZ(roll).multiply(
+                            CameraMatrix4f.rotateY(yaw)).multiply(
+                            CameraMatrix4f.rotateX(pitch))
+                        )
+        );
 
         Shader.shader1.disable();
 
