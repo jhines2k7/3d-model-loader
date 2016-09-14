@@ -4,8 +4,13 @@ import com.hines.james.camera.Camera;
 import com.hines.james.camera.Shader;
 import com.hines.james.camera.matrix.CameraMatrix4f;
 import com.hines.james.input.Input;
+import com.hines.james.math.Vector3f;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GL;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -70,6 +75,38 @@ public class ModelDemo implements Runnable {
         // shouldn't be.
         glEnable(GL_DEPTH_TEST);
 
+        // will try to load model here...
+        int objectDisplayList = glGenLists(1);
+        glNewList(objectDisplayList, GL_COMPILE);
+        {
+            Model teapot = null;
+
+            try {
+                teapot = OBJLoader.loadModel(new File("teapot.obj"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                System.exit(1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+
+            glBegin(GL_TRIANGLES);
+            for (Face face : teapot.faces) {
+                Vector3f v1 = teapot.vertices.get((int) face.vertex.x - 1);
+                glVertex3f(v1.x, v1.y, v1.z);
+
+                Vector3f v2 = teapot.vertices.get((int) face.vertex.y - 1);
+                glVertex3f(v2.x, v2.y, v2.z);
+
+                Vector3f v3 = teapot.vertices.get((int) face.vertex.z - 1);
+                glVertex3f(v3.x, v3.y, v3.z);
+            }
+            glEnd();
+        }
+        glEndList();
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
         // Prints out the current OpenGL version to the console.
         System.out.println("OpenGL: " + glGetString(GL_VERSION));
