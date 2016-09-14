@@ -73,7 +73,7 @@ public class Shader {
 
     public void setUniformMat4f(String name, CameraMatrix4f matrix) {
         if (!enabled) enable();
-        glUniformMatrix4v(getUniform(name), false, matrix.toFloatBuffer());
+        glUniformMatrix4fv(getUniform(name), false, matrix.toFloatBuffer());
     }
 
     public void enable() {
