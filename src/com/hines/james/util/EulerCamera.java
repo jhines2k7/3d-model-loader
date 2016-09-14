@@ -28,8 +28,6 @@ package com.hines.james.util;
  * either expressed or implied, of the FreeBSD Project.
  */
 
-import com.hines.james.input.KeyboardHandler;
-import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL;
@@ -56,7 +54,6 @@ public final class EulerCamera implements Camera {
     private float aspectRatio = 1;
     private final float zNear;
     private final float zFar;
-    private GLFWKeyCallback keyCallback;
 
     private EulerCamera(Builder builder) {
         this.x = builder.x;
@@ -69,8 +66,6 @@ public final class EulerCamera implements Camera {
         this.zNear = builder.zNear;
         this.zFar = builder.zFar;
         this.fov = builder.fov;
-
-
     }
 
     /**
@@ -258,7 +253,7 @@ public final class EulerCamera implements Camera {
             throw new IllegalArgumentException("delta " + delta + " is 0 or is smaller than 0");
         }
 
-        boolean keyUp = GLFWKeyCallback.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W);
+        boolean keyUp = GL.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W);
         boolean keyDown = Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S);
         boolean keyLeft = Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A);
         boolean keyRight = Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D);
