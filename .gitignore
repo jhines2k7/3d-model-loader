@@ -1,6 +1,8 @@
 *.iml
 .idea
 
+native
+
 # Created by https://www.gitignore.io/api/intellij,java
 
 ### Intellij ###
